@@ -2,7 +2,7 @@ import { FaHome, FaMoon, FaSun } from "react-icons/fa";
 import { MdLogin } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useThemeStore } from "../hooks/useTheme";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import userSchema from "../schema/user.schema";
 import { useUserStore } from "../hooks/useUser";
@@ -42,6 +42,7 @@ export default function BottomBar() {
       modalLogout.closeModal();
     },
   });
+  const checkboxRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     useUserStore.subscribe((user) => {
       setUser(user.user);
@@ -81,18 +82,41 @@ export default function BottomBar() {
           <FaHome />
           <span className="btm-nav-label">Home</span>
         </button>
-        <button
-          title="theme"
-          type="button"
+        <div
           onClick={() => {
             themeStore.setTheme(themeStore.theme === "dark" ? "light" : "dark");
+            if (checkboxRef.current) {
+              checkboxRef.current.checked = themeStore.theme == "dark";
+            }
           }}
         >
-          {themeStore.theme === "dark" ? <FaSun /> : <FaMoon />}
+          <label className="swap swap-flip">
+            <input
+              aria-label="theme-switch"
+              type="checkbox"
+              defaultChecked={themeStore.getTheme() == "light"}
+              onChange={() => {
+                themeStore.setTheme(
+                  themeStore.getTheme() === "dark" ? "light" : "dark",
+                );
+                if (checkboxRef.current) {
+                  checkboxRef.current.checked =
+                    themeStore.getTheme() == "light";
+                }
+              }}
+              ref={checkboxRef}
+            />
+            <span className="swap-on">
+              <FaMoon />
+            </span>
+            <span className="swap-off">
+              <FaSun />
+            </span>
+          </label>
           <span className="btm-nav-label">
             {themeStore.theme === "dark" ? "Light" : "Dark"}
           </span>
-        </button>
+        </div>
       </div>
       {modalLogin.modal}
       {modalLogout.modal}
