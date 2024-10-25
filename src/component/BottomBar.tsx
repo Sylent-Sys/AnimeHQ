@@ -18,14 +18,14 @@ export default function BottomBar() {
     });
   }, []);
   return (
-    <div className="btm-nav">
+    <div className="btm-nav btm-nav-lg">
       <button
         title="login"
         type="button"
         onClick={() => {
           if (user) {
             const storageHelper = new StorageHelper(localStorage);
-            storageHelper.removeItem("user");
+            storageHelper.removeItem("user-storage");
             storageHelper.removeItem("anilist_token");
             setUser(null);
             window.location.href = window.location.origin;
@@ -36,7 +36,7 @@ export default function BottomBar() {
       >
         {user ? (
           <div className="avatar">
-            <div className="w-[1em] rounded">
+            <div className="w-4 rounded-full">
               <img alt="Avatar" src={user.data.Viewer.avatar.medium} />
             </div>
           </div>
