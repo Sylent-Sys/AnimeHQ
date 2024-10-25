@@ -13,9 +13,11 @@ export default function UserMiddleware({
   const { fetchData: fetchUser, ...userData } =
     FetchDataHelper<z.infer<typeof userSchema>>();
   const setUser = useUserStore((state) => state.setUser);
+  const getUser = useUserStore((state) => state.getUser);
   useEffect(() => {
     const storageHelper = new StorageHelper(localStorage);
-    if (storageHelper.getItem("user")) {
+    if (storageHelper.getItem("user-storage")) {
+      setUser(getUser());
       return;
     }
     if (!storageHelper.getItem("anilist_token")) {
@@ -50,7 +52,7 @@ export default function UserMiddleware({
         },
       },
     });
-  }, [fetchUser]);
+  }, [fetchUser, getUser, setUser]);
   useEffect(() => {
     if (userData.data) {
       setUser(userData.data);
