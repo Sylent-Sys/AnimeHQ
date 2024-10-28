@@ -35,6 +35,7 @@ export default function BottomBar() {
       const storageHelper = new StorageHelper(localStorage);
       storageHelper.removeItem("user-storage");
       storageHelper.removeItem("anilist_token");
+      storageHelper.removeItem("expire-user-storage");
       setUser(null);
       window.location.href = window.location.origin;
     },
