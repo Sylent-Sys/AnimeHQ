@@ -16,12 +16,36 @@ export default function UserMiddleware({
   const getUser = useUserStore((state) => state.getUser);
   useEffect(() => {
     const storageHelper = new StorageHelper(localStorage);
-    if (storageHelper.getItem("user-storage")) {
-      setUser(getUser());
-      return;
-    }
     if (!storageHelper.getItem("anilist_token")) {
       return;
+    } else {
+      if (storageHelper.getItem("user-storage")) {
+        setUser(getUser());
+      }
+      if (
+        storageHelper.getItem("expire-user-storage") != null &&
+        new Date(storageHelper.getItem("expire-user-storage") as string) >
+          new Date()
+      ) {
+        return;
+      }
+      if (
+        storageHelper.getItem("expire-user-storage") &&
+        new Date(storageHelper.getItem("expire-user-storage") as string) <
+          new Date()
+      ) {
+        setUser(null);
+        storageHelper.setItem(
+          "expire-user-storage",
+          new Date(new Date().getTime() + 15 * 60 * 1000).toISOString(),
+        );
+      }
+      if (storageHelper.getItem("expire-user-storage") == null) {
+        storageHelper.setItem(
+          "expire-user-storage",
+          new Date(new Date().getTime() + 15 * 60 * 1000).toISOString(),
+        );
+      }
     }
     fetchUser({
       apiUrl: "https://graphql.anilist.co",
