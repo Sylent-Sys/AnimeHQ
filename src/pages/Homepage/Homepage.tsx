@@ -46,7 +46,7 @@ function App() {
           className="h-[40vh]"
           slidesPerView={1}
           autoplay={{
-            delay: 1000000,
+            delay: 10000,
             disableOnInteraction: false,
           }}
           pagination={{
