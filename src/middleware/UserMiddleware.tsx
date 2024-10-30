@@ -47,35 +47,7 @@ export default function UserMiddleware({
         );
       }
     }
-    fetchUser({
-      apiUrl: "https://graphql.anilist.co",
-      url: "/",
-      method: "POST",
-      schema: userSchema,
-      axiosConfig: {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        data: {
-          query: `query {
-  Viewer {
-    avatar {
-      medium
-    }
-    name
-    id
-    mediaListOptions {
-      animeList {
-        customLists
-      }
-    }
-  }
-}
-`,
-        },
-      },
-    });
+    fetchUser(window.anilistHelper.getAuthenticatedUser(userSchema));
   }, [fetchUser, getUser, setUser]);
   useEffect(() => {
     if (userData.data) {
