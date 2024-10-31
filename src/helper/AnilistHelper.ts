@@ -155,4 +155,55 @@ export class AnilistHelper {
     }`;
     return this.requestFactory(query, variables, schema);
   }
+  getUserMedia(id: number, schema: ZodSchema) {
+    const query = `
+    query($id: Int) {
+        MediaListCollection(userId: $id, type: ANIME, forceSingleCompletedList: true, sort: UPDATED_TIME_DESC) {
+          lists {
+            status,
+            entries {
+              media {
+                id,
+                status,
+                mediaListEntry {
+                  progress
+                },
+                nextAiringEpisode {
+                  episode
+                },
+                relations {
+                  edges {
+                    relationType(version:2)
+                    node {
+                      id
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `;
+    return this.requestFactory(query, { id }, schema);
+  }
+  searchByIds(
+    id: number[],
+    variables: SearchVariables = {},
+    schema: ZodSchema,
+  ) {
+    variables.sort ||= "SEARCH_MATCH";
+    const query = ` 
+    query($id: [Int], $page: Int, $perPage: Int, $status: [MediaStatus], $onList: Boolean, $sort: [MediaSort], $search: String, $season: MediaSeason, $year: Int, $genre: String, $format: MediaFormat) { 
+      Page(page: $page, perPage: $perPage) {
+        pageInfo {
+          hasNextPage
+        },
+        media(id_in: $id, type: ANIME, status_in: $status, onList: $onList, search: $search, sort: $sort, season: $season, seasonYear: $year, genre: $genre, format: $format) {
+          ${queryObject}
+        }
+      }
+    }`;
+    return this.requestFactory(query, { id, ...variables }, schema);
+  }
 }
