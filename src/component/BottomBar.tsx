@@ -1,4 +1,4 @@
-import { FaHome, FaMoon, FaSun } from "react-icons/fa";
+import { FaHome, FaMoon, FaSearch, FaSun } from "react-icons/fa";
 import { MdLogin } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useThemeStore } from "../hooks/useTheme";
@@ -84,6 +84,15 @@ export default function BottomBar() {
         >
           <FaHome />
           <span className="btm-nav-label">Home</span>
+        </button>
+        <button
+          title="home"
+          type="button"
+          className={location.pathname == "/anime/search" ? "active" : ""}
+          onClick={() => navigate("/anime/search")}
+        >
+          <FaSearch />
+          <span className="btm-nav-label">Search</span>
         </button>
         <div
           onClick={() => {
