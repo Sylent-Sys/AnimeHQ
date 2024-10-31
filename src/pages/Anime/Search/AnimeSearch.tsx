@@ -37,7 +37,7 @@ export default function AnimeSearch() {
 
   useEffect(() => {
     fetchGenreCollection(
-      window.anilistHelper.getGenresCollection(genreCollectionSchema)
+      window.anilistHelper.getGenresCollection(genreCollectionSchema),
     );
   }, [fetchGenreCollection]);
 
@@ -46,8 +46,8 @@ export default function AnimeSearch() {
       fetchSearch(
         window.anilistHelper.search(
           { ...debouncedQuery, page: 1, perPage: 40 },
-          mediaSchema
-        )
+          mediaSchema,
+        ),
       );
     }
   }, [fetchSearch, debouncedQuery]);
@@ -61,7 +61,7 @@ export default function AnimeSearch() {
   }, [searchQuery, setSearchParams]);
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setSearchQuery((prev) => ({
@@ -71,7 +71,7 @@ export default function AnimeSearch() {
   };
 
   return (
-    <div className="min-h-screen p-4 flex flex-col gap-4">
+    <div className="min-h-screen p-4 flex flex-col gap-4 overflow-hidden">
       <div className="flex flex-row gap-4">
         <label className="form-control w-full max-w-xs">
           <div className="label">
@@ -103,7 +103,7 @@ export default function AnimeSearch() {
                 <option key={genre} value={genre}>
                   {genre}
                 </option>
-              )
+              ),
             )}
           </select>
         </label>
@@ -121,7 +121,7 @@ export default function AnimeSearch() {
             >
               <option value="">Any</option>
               {Object.entries(
-                window.anilistHelper.getSearchVariables().MediaSeason
+                window.anilistHelper.getSearchVariables().MediaSeason,
               ).map(([key, value]: [string, string]) => (
                 <option key={key} value={key}>
                   {value}
@@ -141,7 +141,7 @@ export default function AnimeSearch() {
                   <option key={i} value={new Date().getFullYear() + 2 - i}>
                     {new Date().getFullYear() + 2 - i}
                   </option>
-                )
+                ),
               )}
             </select>
           </div>
@@ -164,7 +164,7 @@ export default function AnimeSearch() {
               {Object.entries(
                 window.anilistHelper.getSearchVariables()[
                   `Media${field.charAt(0).toUpperCase() + field.slice(1)}` as keyof object
-                ] as Record<string, string>
+                ] as Record<string, string>,
               ).map(([key, value]: [string, string]) => (
                 <option key={key} value={key}>
                   {value}
@@ -193,7 +193,7 @@ export default function AnimeSearch() {
                     .join(" ")}
                 </p>
               </div>
-            )
+            ),
         )}
         <div className="ml-auto">
           <button
@@ -222,9 +222,7 @@ export default function AnimeSearch() {
       </div>
       <div className="flex flex-col gap-4">
         <p className="text-xl font-bold">Result</p>
-        <CardMedia
-          media={searchData.loading ? [] : searchData.data?.data.Page.media}
-        />
+        <CardMedia media={searchData.data?.data.Page.media ?? []} />
       </div>
     </div>
   );
