@@ -192,22 +192,32 @@ function App() {
       <div className="p-4 flex flex-col gap-4">
         <div className="flex flex-col gap-4">
           <p className="text-xl font-bold">Trending Now</p>
-          <CardMedia media={trendingNowData.data?.data.Page.media ?? []} />
+          <CardMedia
+            media={trendingNowData.data?.data.Page.media ?? null}
+            loading={trendingNowData.loading}
+          />
         </div>
         <div className="flex flex-col gap-4">
           <p className="text-xl font-bold">Popular This Season</p>
           <CardMedia
-            media={popularThisSeasonData.data?.data.Page.media ?? []}
+            media={popularThisSeasonData.data?.data.Page.media ?? null}
+            loading={popularThisSeasonData.loading}
           />
         </div>
         <div className="flex flex-col gap-4">
           <p className="text-xl font-bold">All Time Popular</p>
-          <CardMedia media={allTimePopularData.data?.data.Page.media ?? []} />
+          <CardMedia
+            media={allTimePopularData.data?.data.Page.media ?? null}
+            loading={allTimePopularData.loading}
+          />
         </div>
         {userStore.userMedia && userStore.user && (
           <div className="flex flex-col gap-4">
             <p className="text-xl font-bold">My List</p>
-            <CardMedia media={userMediaData.data?.data.Page.media ?? []} />
+            <CardMedia
+              media={userMediaData.data?.data.Page.media ?? null}
+              loading={userMediaData.loading}
+            />
           </div>
         )}
       </div>
