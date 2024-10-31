@@ -1,23 +1,9 @@
-import { AxiosRequestConfig } from "axios";
 import { useCallback, useState } from "react";
 import AxiosHelper from "./AxiosHelper";
-import { ZodSchema } from "zod";
-
-interface FetchDataHelperState<T> {
-  data: T | null;
-  errorResponse: Error | null;
-  error: boolean;
-  loading: boolean;
-  success: boolean;
-}
-
-interface FetchDataHelperProps {
-  url: string;
-  method: "GET" | "POST" | "DELETE" | "PUT" | "PATCH";
-  schema: ZodSchema;
-  apiUrl?: string;
-  axiosConfig?: AxiosRequestConfig;
-}
+import {
+  FetchDataHelperState,
+  FetchDataHelperProps,
+} from "../interfaces/fetch-data-helper.interface";
 
 export default function FetchDataHelper<T>() {
   const [state, setState] = useState<FetchDataHelperState<T>>({
