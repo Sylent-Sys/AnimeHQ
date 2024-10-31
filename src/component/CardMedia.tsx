@@ -1,14 +1,18 @@
+import { useState } from "react";
 import { z } from "zod";
 import mediaSchema from "../schema/media.schema";
+import PreviewCard from "./PreviewCard";
 
 export default function CardMedia({
   media,
 }: {
   media: z.infer<typeof mediaSchema>["data"]["Page"]["media"];
 }) {
+  const [hoveredMedia, setHoveredMedia] = useState<number | null>(null);
+
   return (
     <div className="grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-8">
-      {media?.length == 0
+      {media?.length === 0
         ? Array.from({ length: 16 }).map((_, index) => (
             <div className="rounded w-full h-96 animate-pulse" key={index}>
               <div className="bg-base-content w-full h-full"></div>
@@ -16,8 +20,10 @@ export default function CardMedia({
           ))
         : media?.map((media) => (
             <div
-              className="rounded-xl bg-base-300 h-96 w-full shadow-xl"
+              className="rounded-xl bg-base-300 h-96 w-full shadow-xl relative"
               key={media.id}
+              onMouseEnter={() => setHoveredMedia(media.id ?? null)}
+              onMouseLeave={() => setHoveredMedia(null)}
             >
               <img
                 src={
@@ -43,6 +49,7 @@ export default function CardMedia({
                   </span>
                 </p>
               </div>
+              {hoveredMedia == media.id && <PreviewCard media={media} />}
             </div>
           ))}
     </div>

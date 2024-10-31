@@ -100,7 +100,7 @@ function App() {
     }
   }, [fetchUserMedia, userStore.user, userStore.userMedia]);
   return (
-    <div>
+    <div className="overflow-hidden min-h-screen">
       {bannerData.data?.data == null && (
         <div className="h-[40vh] animate-pulse">
           <div className="bg-base-content w-full h-full" />
@@ -139,7 +139,7 @@ function App() {
                 <div className="flex flex-row gap-1">
                   {[
                     media.format,
-                    media.duration,
+                    media.duration + " Episodes",
                     [media.season?.toLowerCase(), media.seasonYear]
                       .filter((s) => !!s)
                       .map(
