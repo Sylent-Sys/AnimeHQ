@@ -14,6 +14,7 @@ if (import.meta.env.PROD) {
 }
 
 window.anilistHelper = new AnilistHelper();
+window.ongoingRequests = new Map();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <RouterProvider router={router} />
