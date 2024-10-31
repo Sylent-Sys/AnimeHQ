@@ -13,6 +13,7 @@ export default function BottomBar() {
   const location = useLocation();
   const navigate = useNavigate();
   const themeStore = useThemeStore();
+  const userStore = useUserStore();
   const [user, setUser] = useState<z.infer<typeof userSchema> | null>(null);
   const modalLogin = Modal({
     id: "modal-login",
@@ -33,7 +34,8 @@ export default function BottomBar() {
     modalType: "confirm",
     onConfirm() {
       const storageHelper = new StorageHelper(localStorage);
-      storageHelper.removeItem("user-storage");
+      userStore.setUser(null);
+      userStore.setUserMedia(null);
       storageHelper.removeItem("anilist_token");
       storageHelper.removeItem("expire-user-storage");
       setUser(null);
@@ -51,7 +53,7 @@ export default function BottomBar() {
   }, []);
   return (
     <>
-      <div className="btm-nav btm-nav-lg">
+      <div className="btm-nav btm-nav-lg sticky">
         <button
           title="login"
           type="button"
