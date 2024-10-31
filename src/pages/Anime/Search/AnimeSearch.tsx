@@ -16,8 +16,12 @@ export default function AnimeSearch() {
   const [searchQuery, setSearchQuery] = useState<SearchVariables>({});
   const [debouncedQuery, setDebouncedQuery] = useState<SearchVariables>({});
   const [searchParams, setSearchParams] = useSearchParams();
+  const [firstRender, setFirstRender] = useState(true);
 
   useEffect(() => {
+    if (!firstRender) {
+      return;
+    }
     const params: SearchVariables = {
       search: searchParams.get("search") || undefined,
       genre: searchParams.get("genre") || undefined,
@@ -28,7 +32,8 @@ export default function AnimeSearch() {
       sort: searchParams.get("sort") || undefined,
     };
     setSearchQuery(params);
-  }, []);
+    setFirstRender(false);
+  }, [searchParams, firstRender]);
 
   useEffect(() => {
     const handler = setTimeout(() => setDebouncedQuery(searchQuery), 500);
@@ -222,7 +227,10 @@ export default function AnimeSearch() {
       </div>
       <div className="flex flex-col gap-4">
         <p className="text-xl font-bold">Result</p>
-        <CardMedia media={searchData.data?.data.Page.media ?? []} />
+        <CardMedia
+          media={searchData.data?.data.Page.media ?? null}
+          loading={searchData.loading}
+        />
       </div>
     </div>
   );
