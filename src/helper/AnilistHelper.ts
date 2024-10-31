@@ -206,4 +206,43 @@ export class AnilistHelper {
     }`;
     return this.requestFactory(query, { id, ...variables }, schema);
   }
+  getGenresCollection(schema: ZodSchema) {
+    const query = `
+      query {
+        GenreCollection
+      }
+    `;
+    return this.requestFactory(query, {}, schema);
+  }
+  getSearchVariables() {
+    const MediaStatus = {
+      FINISHED: "FINISHED",
+      RELEASING: "RELEASING",
+      NOT_YET_RELEASED: "NOT YET RELEASED",
+      CANCELLED: "CANCELLED",
+      HIATUS: "HIATUS",
+    };
+    const MediaSeason = {
+      WINTER: "WINTER",
+      SPRING: "SPRING",
+      SUMMER: "SUMMER",
+      FALL: "FALL",
+    };
+    const MediaFormat = {
+      TV: "TV",
+      TV_SHORT: "TV SHORT",
+      MOVIE: "MOVIE",
+      SPECIAL: "SPECIAL",
+      OVA: "OVA",
+      ONA: "ONA",
+    };
+    const MediaSort = {
+      START_DATE_DESC: "Release Date",
+      SCORE_DESC: "Score",
+      POPULARITY_DESC: "Popularity",
+      TRENDING_DESC: "Trending",
+      UPDATED_AT_DESC: "Updated Date",
+    };
+    return { MediaStatus, MediaSeason, MediaFormat, MediaSort };
+  }
 }
