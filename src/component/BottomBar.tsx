@@ -53,7 +53,7 @@ export default function BottomBar() {
   }, []);
   return (
     <>
-      <div className="btm-nav btm-nav-lg sticky">
+      <div className="btm-nav btm-nav-lg sticky z-50">
         <button
           title="login"
           type="button"
