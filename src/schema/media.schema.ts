@@ -74,7 +74,19 @@ export default z.object({
               )
               .optional()
               .nullable(),
-            mediaListEntry: z.null().optional().nullable(),
+            mediaListEntry: z
+              .object({
+                id: z.number(),
+                progress: z.number(),
+                repeat: z.number(),
+                status: z.string(),
+                customLists: z.array(
+                  z.object({ name: z.string(), enabled: z.boolean() }),
+                ),
+                score: z.number(),
+              })
+              .optional()
+              .nullable(),
             studios: z
               .object({
                 nodes: z
