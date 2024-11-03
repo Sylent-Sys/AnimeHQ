@@ -52,7 +52,8 @@ export default function PreviewCard({
               .filter((s) => !!s)
               .map(
                 (s) =>
-                  s!.toString().charAt(0).toUpperCase() + s!.toString().slice(1)
+                  s!.toString().charAt(0).toUpperCase() +
+                  s!.toString().slice(1),
               )
               .join(" "),
           ].map((text, index, array) => (
