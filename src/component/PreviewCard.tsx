@@ -42,18 +42,17 @@ export default function PreviewCard({
           src={`https://www.youtube-nocookie.com/embed/${media.trailer?.id}?autoplay=1&controls=0&mute=${muted ? 1 : 0}&disablekb=1&loop=1&vq=medium&playlist=${media.trailer?.id}&cc_lang_pref=ja`}
         />
       </div>
-      <div className="py-2 px-4">
+      <div className="py-2 px-4 h-[60%]">
         <p className="line-clamp-1 font-bold">{media.title?.userPreferred}</p>
-        <div className="flex flex-row gap-1 font-bold">
+        <div className="flex flex-row gap-1 font-bold line-clamp-1">
           {[
-            media.format,
-            media.duration + " Episodes",
+            media.format ?? "N/A",
+            (media.duration ?? "N/A") + " Episodes",
             [media.season?.toLowerCase(), media.seasonYear]
               .filter((s) => !!s)
               .map(
                 (s) =>
-                  s!.toString().charAt(0).toUpperCase() +
-                  s!.toString().slice(1),
+                  s!.toString().charAt(0).toUpperCase() + s!.toString().slice(1)
               )
               .join(" "),
           ].map((text, index, array) => (
@@ -63,9 +62,24 @@ export default function PreviewCard({
             </div>
           ))}
         </div>
-        <p className="line-clamp-4 text-xs">
+        <div className="font-bold text-sm flex flex-row gap-1 line-clamp-1">
+          {media.genres?.map((genre, index, array) => (
+            <div key={index} className="flex flex-row gap-1">
+              <span key={genre}>{genre}</span>
+              {index !== array.length - 1 && <span>&#x2027;</span>}
+            </div>
+          ))}
+        </div>
+        <p className="text-xs line-clamp-4">
           {media.description?.replace(/<[^>]*>/g, "")}
         </p>
+        <button
+          type="button"
+          className="btn btn-xs btn-primary w-full font-bold"
+          onClick={() => {}}
+        >
+          More Info
+        </button>
       </div>
     </div>
   );
