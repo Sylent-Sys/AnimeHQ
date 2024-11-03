@@ -9,6 +9,7 @@ import { currentSeason, currentYear } from "../../helper/AnilistHelper";
 import { z } from "zod";
 import CardMedia from "../../component/CardMedia";
 import { useUserStore } from "../../hooks/useUser";
+import { useNavigate } from "react-router-dom";
 function App() {
   const progressCircle = useRef<SVGSVGElement>(null);
   const progressContent = useRef<HTMLSpanElement>(null);
@@ -25,6 +26,7 @@ function App() {
     progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
   };
   const userStore = useUserStore();
+  const navigate = useNavigate();
   const { fetchData: fetchPopularThisSeason, ...popularThisSeasonData } =
     FetchDataHelper<z.infer<typeof mediaSchema>>();
   const { fetchData: fetchTrendingNow, ...trendingNowData } =
@@ -191,21 +193,62 @@ function App() {
       )}
       <div className="p-4 flex flex-col gap-4">
         <div className="flex flex-col gap-4">
-          <p className="text-xl font-bold">Trending Now</p>
+          <div className="flex flex-row justify-between">
+            <p className="text-xl font-bold">Trending Now</p>
+            <button
+              type="button"
+              className="text-xl font-bold"
+              onClick={() => {
+                const url = new URL(window.location.origin + "/anime/search");
+                url.searchParams.set("sort", "TRENDING_DESC");
+                navigate(url.toString().replace(window.location.origin, ""));
+              }}
+            >
+              View More
+            </button>
+          </div>
           <CardMedia
             media={trendingNowData.data?.data.Page.media ?? null}
             loading={trendingNowData.loading}
           />
         </div>
         <div className="flex flex-col gap-4">
-          <p className="text-xl font-bold">Popular This Season</p>
+          <div className="flex flex-row justify-between">
+            <p className="text-xl font-bold">Popular This Season</p>
+            <button
+              type="button"
+              className="text-xl font-bold"
+              onClick={() => {
+                const url = new URL(window.location.origin + "/anime/search");
+                url.searchParams.set("sort", "POPULARITY_DESC");
+                url.searchParams.set("season", currentSeason);
+                url.searchParams.set("year", currentYear.toString());
+                navigate(url.toString().replace(window.location.origin, ""));
+              }}
+            >
+              View More
+            </button>
+          </div>
           <CardMedia
             media={popularThisSeasonData.data?.data.Page.media ?? null}
             loading={popularThisSeasonData.loading}
           />
         </div>
         <div className="flex flex-col gap-4">
-          <p className="text-xl font-bold">All Time Popular</p>
+          <div className="flex flex-row justify-between">
+            <p className="text-xl font-bold">All Time Popular</p>
+            <button
+              type="button"
+              className="text-xl font-bold"
+              onClick={() => {
+                const url = new URL(window.location.origin + "/anime/search");
+                url.searchParams.set("sort", "POPULARITY_DESC");
+                navigate(url.toString().replace(window.location.origin, ""));
+              }}
+            >
+              View More
+            </button>
+          </div>
           <CardMedia
             media={allTimePopularData.data?.data.Page.media ?? null}
             loading={allTimePopularData.loading}
